@@ -23,6 +23,28 @@ static const NonnullRefPtr<Gfx::CharacterBitmap> s_diamond = Gfx::CharacterBitma
     "    #    ",
     9, 9);
 
+static const NonnullRefPtr<Gfx::CharacterBitmap> s_diamond_big = Gfx::CharacterBitmap::create_from_ascii(
+    "    ##    "
+    "    ##    "
+    "   ####   "
+    "   ####   "
+    "  ######  "
+    "  ######  "
+    " ######## "
+    " ######## "
+    "##########"
+    "##########"
+    " ######## "
+    " ######## "
+    "  ######  "
+    "  ######  "
+    "   ####   "
+    "   ####   "
+    "    ##    "
+    "    ##    ",
+    10, 18);
+
+
 static const NonnullRefPtr<Gfx::CharacterBitmap> s_heart = Gfx::CharacterBitmap::create_from_ascii(
     "  #   #  "
     " ### ### "
@@ -35,6 +57,26 @@ static const NonnullRefPtr<Gfx::CharacterBitmap> s_heart = Gfx::CharacterBitmap:
     "    #    ",
     9, 9);
 
+static const NonnullRefPtr<Gfx::CharacterBitmap> s_heart_big = Gfx::CharacterBitmap::create_from_ascii(
+    "    ###    ###    "
+    "   #####  #####   "
+    "  ##############  "
+    " ################ "
+    " ################ "
+    "##################"
+    "##################"
+    "##################"
+    "##################"
+    " ################ "
+    " ################ "
+    "  ##############  "
+    "   ############   "
+    "    ##########    "
+    "     ########     "
+    "      ######      "
+    "       ####       "
+    "        ##        ",
+    18, 18);
 static const NonnullRefPtr<Gfx::CharacterBitmap> s_spade = Gfx::CharacterBitmap::create_from_ascii(
     "    #    "
     "   ###   "
@@ -46,6 +88,27 @@ static const NonnullRefPtr<Gfx::CharacterBitmap> s_spade = Gfx::CharacterBitmap:
     "   ###   "
     "   ###   ",
     9, 9);
+
+static const NonnullRefPtr<Gfx::CharacterBitmap> s_spade_big = Gfx::CharacterBitmap::create_from_ascii(
+    "        ##        "
+    "       ####       "
+    "      ######      "
+    "     ########     "
+    "    ##########    "
+    "   ############   "
+    "  ##############  "
+    " ################ "
+    "##################"
+    "##################"
+    "##################"
+    "##################"
+    " ################ "
+    "  ##### ## #####  "
+    "   ###  ##  ###   "
+    "        ##        "
+    "       ####       "
+    "     ########     ",
+    18, 18);
 
 static const NonnullRefPtr<Gfx::CharacterBitmap> s_club = Gfx::CharacterBitmap::create_from_ascii(
     "    ###    "
@@ -59,11 +122,33 @@ static const NonnullRefPtr<Gfx::CharacterBitmap> s_club = Gfx::CharacterBitmap::
     "    ###    ",
     11, 9);
 
+static const NonnullRefPtr<Gfx::CharacterBitmap> s_club_big = Gfx::CharacterBitmap::create_from_ascii(
+    "        ##        "
+    "       ####       "
+    "      ######      "
+    "     ########     "
+    "     ########     "
+    "      ######      "
+    "   ##  ####  ##   "
+    "  ####  ##  ####  "
+    " ###### ## ###### "
+    "##################"
+    "##################"
+    " ###### ## ###### "
+    "  ####  ##  ####  "
+    "   ##   ##   ##   "
+    "        ##        "
+    "        ##        "
+    "       ####       "
+    "     ########     ",
+    18, 18);
+
 struct SymbolPosition {
     Gfx::FloatPoint position;
     bool upside_down;
 };
 
+// Just a comment
 constexpr float center = 0.50;
 constexpr float left_column = 0.33;
 constexpr float right_column = 0.68;
@@ -200,18 +285,23 @@ Card::Card(Type type, uint8_t value)
     painter.draw_text(text_rect, label, font, Gfx::TextAlignment::Center, color());
 
     NonnullRefPtr<Gfx::CharacterBitmap> symbol = s_diamond;
+    NonnullRefPtr<Gfx::CharacterBitmap> symbol_big = s_spade_big;
     switch (m_type) {
     case Diamonds:
         symbol = s_diamond;
+        symbol_big = s_diamond_big;
         break;
     case Clubs:
         symbol = s_club;
+        symbol_big = s_club_big;
         break;
     case Spades:
         symbol = s_spade;
+        symbol_big = s_spade_big;
         break;
     case Hearts:
         symbol = s_heart;
+        symbol_big = s_heart_big;
         break;
     default:
         VERIFY_NOT_REACHED();
@@ -231,14 +321,14 @@ Card::Card(Type type, uint8_t value)
         for (auto position : symbol_positions[value]) {
             if (position.upside_down) {
                 painter.draw_upsidedown_bitmap(
-                { (width * position.position.x()) - (symbol->size().width() / 2),
-                    (height * position.position.y()) - (symbol->size().height() / 2) },
-                symbol, color());
+                { (width * position.position.x()) - (symbol_big->size().width() / 2),
+                    (height * position.position.y()) - (symbol_big->size().height() / 2) },
+                symbol_big, color());
             } else {
             painter.draw_bitmap(
-                { (width * position.position.x()) - (symbol->size().width() / 2),
-                    (height * position.position.y()) - (symbol->size().height() / 2) },
-                symbol, color());
+                { (width * position.position.x()) - (symbol_big->size().width() / 2),
+                    (height * position.position.y()) - (symbol_big->size().height() / 2) },
+                symbol_big, color());
             }
         }
     }
