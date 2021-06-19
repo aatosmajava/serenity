@@ -64,82 +64,90 @@ struct SymbolPosition {
     bool upside_down;
 };
 
+constexpr float center = 0.50;
+constexpr float left_column = 0.33;
+constexpr float right_column = 0.68;
+constexpr float first_row = 0.20;
+constexpr float second_row = 0.40;
+constexpr float third_row = 0.60;
+constexpr float fourth_row = 0.80;
+
 static const Vector<Vector<SymbolPosition>> symbol_positions = {
     { // 1
-        { { 0.5, 0.5 }, false },
+        { { center, center }, false },
     },
     { // 2
-        { { 0.5, 0.20 }, false },
-        { { 0.5, 0.80 }, true }
+        { { center, first_row }, false },
+        { { center, fourth_row }, true }
     },
     { // 3
-        { { 0.5, 0.20 }, false },
-        { { 0.5, 0.50 }, false },
-        { { 0.5, 0.80 }, true },
+        { { center, first_row }, false },
+        { { center, center }, false },
+        { { center, fourth_row }, true },
     },
     { // 4
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
     },
     { // 5
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
-        { { 0.5, 0.5 }, false },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
+        { { center, center }, false },
     },
     { // 6
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
-        { { 0.33, 0.5 }, false },
-        { { 0.67, 0.5 }, false },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
+        { { left_column, center }, false },
+        { { right_column, center }, false },
     },
     { // 7
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
-        { { 0.33, 0.5 }, false },
-        { { 0.67, 0.5 }, false },
-        { { 0.5, 0.35 }, false },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
+        { { left_column, center }, false },
+        { { right_column, center }, false },
+        { { center, 0.35 }, false },
     },
     { // 8
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.40 }, false },
-        { { 0.67, 0.40 }, false },
-        { { 0.33, 0.60 }, true },
-        { { 0.67, 0.60 }, true },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, second_row }, false },
+        { { right_column, second_row }, false },
+        { { left_column, third_row }, true },
+        { { right_column, third_row }, true },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
     }
     ,
     { // 9
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.40 }, false },
-        { { 0.67, 0.40 }, false },
-        { { 0.33, 0.60 }, true },
-        { { 0.67, 0.60 }, true },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
-        { { 0.50, 0.50 }, false },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, second_row }, false },
+        { { right_column, second_row }, false },
+        { { left_column, third_row }, true },
+        { { right_column, third_row }, true },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
+        { { center, center }, false },
     },
     { // 10
-        { { 0.33, 0.20 }, false },
-        { { 0.67, 0.20 }, false },
-        { { 0.33, 0.40 }, false },
-        { { 0.67, 0.40 }, false },
-        { { 0.33, 0.60 }, true },
-        { { 0.67, 0.60 }, true },
-        { { 0.33, 0.80 }, true },
-        { { 0.67, 0.80 }, true },
-        { { 0.50, 0.30 }, false },
-        { { 0.50, 0.70 }, true },
+        { { left_column, first_row }, false },
+        { { right_column, first_row }, false },
+        { { left_column, second_row }, false },
+        { { right_column, second_row }, false },
+        { { left_column, third_row }, true },
+        { { right_column, third_row }, true },
+        { { left_column, fourth_row }, true },
+        { { right_column, fourth_row }, true },
+        { { center, 0.30 }, false },
+        { { center, 0.71 }, true },
     }
 };
 
