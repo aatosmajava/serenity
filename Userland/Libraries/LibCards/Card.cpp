@@ -59,8 +59,93 @@ static const NonnullRefPtr<Gfx::CharacterBitmap> s_club = Gfx::CharacterBitmap::
     "    ###    ",
     11, 9);
 
+struct SymbolPosition {
+    Gfx::FloatPoint position;
+    bool upside_down;
+};
+
+static const Vector<Vector<SymbolPosition>> symbol_positions = {
+    { // 1
+        { { 0.5, 0.5 }, false },
+    },
+    { // 2
+        { { 0.5, 0.20 }, false },
+        { { 0.5, 0.80 }, true }
+    },
+    { // 3
+        { { 0.5, 0.20 }, false },
+        { { 0.5, 0.50 }, false },
+        { { 0.5, 0.80 }, true },
+    },
+    { // 4
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+    },
+    { // 5
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+        { { 0.5, 0.5 }, false },
+    },
+    { // 6
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+        { { 0.33, 0.5 }, false },
+        { { 0.67, 0.5 }, false },
+    },
+    { // 7
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+        { { 0.33, 0.5 }, false },
+        { { 0.67, 0.5 }, false },
+        { { 0.5, 0.35 }, false },
+    },
+    { // 8
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.40 }, false },
+        { { 0.67, 0.40 }, false },
+        { { 0.33, 0.60 }, true },
+        { { 0.67, 0.60 }, true },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+    }
+    ,
+    { // 9
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.40 }, false },
+        { { 0.67, 0.40 }, false },
+        { { 0.33, 0.60 }, true },
+        { { 0.67, 0.60 }, true },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+        { { 0.50, 0.50 }, false },
+    },
+    { // 10
+        { { 0.33, 0.20 }, false },
+        { { 0.67, 0.20 }, false },
+        { { 0.33, 0.40 }, false },
+        { { 0.67, 0.40 }, false },
+        { { 0.33, 0.60 }, true },
+        { { 0.67, 0.60 }, true },
+        { { 0.33, 0.80 }, true },
+        { { 0.67, 0.80 }, true },
+        { { 0.50, 0.30 }, false },
+        { { 0.50, 0.70 }, true },
+    }
+};
+
 static RefPtr<Gfx::Bitmap> s_background;
 static RefPtr<Gfx::Bitmap> s_background_inverted;
+
 
 Card::Card(Type type, uint8_t value)
     : m_rect(Gfx::IntRect({}, { width, height }))
@@ -131,6 +216,22 @@ Card::Card(Type type, uint8_t value)
     for (int y = height / 2; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             m_front->set_pixel(x, y, m_front->get_pixel(width - x - 1, height - y - 1));
+        }
+    }
+
+    if (value < symbol_positions.size()) {
+        for (auto position : symbol_positions[value]) {
+            if (position.upside_down) {
+                painter.draw_upsidedown_bitmap(
+                { (width * position.position.x()) - (symbol->size().width() / 2),
+                    (height * position.position.y()) - (symbol->size().height() / 2) },
+                symbol, color());
+            } else {
+            painter.draw_bitmap(
+                { (width * position.position.x()) - (symbol->size().width() / 2),
+                    (height * position.position.y()) - (symbol->size().height() / 2) },
+                symbol, color());
+            }
         }
     }
 

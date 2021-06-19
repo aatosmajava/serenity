@@ -585,6 +585,34 @@ void Painter::draw_bitmap(const IntPoint& p, const CharacterBitmap& bitmap, Colo
     }
 }
 
+void Painter::draw_upsidedown_bitmap(const IntPoint& p, const CharacterBitmap& bitmap, Color color)
+{
+    VERIFY(scale() == 1); // FIXME: Add scaling support.
+
+    auto rect = IntRect(p, bitmap.size()).translated(translation());
+    auto clipped_rect = rect.intersected(clip_rect());
+    if (clipped_rect.is_empty())
+        return;
+    const int first_row = clipped_rect.top() - rect.top();
+    const int last_row = clipped_rect.bottom() - rect.top();
+    const int first_column = clipped_rect.left() - rect.left();
+    const int last_column = clipped_rect.right() - rect.left();
+    RGBA32* dst = m_target->scanline(clipped_rect.y()) + clipped_rect.x();
+    const size_t dst_skip = m_target->pitch() / sizeof(RGBA32);
+    const char* bitmap_row = &bitmap.bits()[last_row * bitmap.width() + first_column];
+    const size_t bitmap_skip = bitmap.width();
+
+    for (int row = first_row; row <= last_row; ++row) {
+        for (int j = 0; j <= (last_column - first_column); ++j) {
+            char fc = bitmap_row[j];
+            if (fc == '#')
+                dst[j] = color.value();
+        }
+        bitmap_row -= bitmap_skip;
+        dst += dst_skip;
+    }
+}
+
 void Painter::draw_bitmap(const IntPoint& p, const GlyphBitmap& bitmap, Color color)
 {
     auto dst_rect = IntRect(p, bitmap.size()).translated(translation());
